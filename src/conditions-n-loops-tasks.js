@@ -560,24 +560,45 @@ function sortByAsc(arr) {
  */
 function shuffleChar(str, iterations) {
   let modifiedStr = str;
-  for (let i = 0; i < iterations; i += 1) {
-    const { length } = modifiedStr;
-    const mid = Math.ceil(length / 2);
-    const evenChars = modifiedStr.substring(0, mid);
-    const oddChars = modifiedStr.substring(mid);
-
+  const { length } = modifiedStr;
+  let cycleLength = 1;
+  let checkStr = modifiedStr;
+  let iter = iterations;
+  for (let i = 1; i <= length; i += 1) {
     let result = '';
-    for (let j = 0; j < mid; j += 1) {
-      result += evenChars[j];
-      if (j < oddChars.length) {
-        result += oddChars[j];
+    for (let j = 0; j < length; j += 1) {
+      if (j % 2 === 0) {
+        result += checkStr[j];
+      }
+    }
+    for (let j = 0; j < length; j += 1) {
+      if (j % 2 !== 0) {
+        result += checkStr[j];
+      }
+    }
+    checkStr = result;
+    if (checkStr === modifiedStr) {
+      cycleLength = i;
+      break;
+    }
+  }
+  iter %= cycleLength;
+  for (let i = 0; i < iter; i += 1) {
+    let result = '';
+    for (let j = 0; j < length; j += 1) {
+      if (j % 2 === 0) {
+        result += modifiedStr[j];
+      }
+    }
+    for (let j = 0; j < length; j += 1) {
+      if (j % 2 !== 0) {
+        result += modifiedStr[j];
       }
     }
     modifiedStr = result;
   }
   return modifiedStr;
 }
-
 /**
  * Returns the nearest largest integer consisting of the digits of the given positive integer.
  * If there is no such number, it returns the original number.
