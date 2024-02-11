@@ -623,27 +623,35 @@ function getNearestBigger(number) {
     digits.unshift(temp % 10);
     temp = Math.floor(temp / 10);
   }
-  let pivotIndex = digits.length - 2;
-  while (pivotIndex >= 0 && digits[pivotIndex] >= digits[pivotIndex + 1]) {
-    pivotIndex -= 1;
+  let i = digits.length - 2;
+  while (i >= 0 && digits[i] >= digits[i + 1]) {
+    i -= 1;
   }
-  if (pivotIndex === -1) {
+  if (i === -1) {
     return number;
   }
-  let swapIndex = digits.length - 1;
-  while (digits[swapIndex] <= digits[pivotIndex]) {
-    swapIndex -= 1;
+  let j = digits.length - 1;
+  while (digits[j] <= digits[i]) {
+    j -= 1;
   }
-  const tempDigit = digits[pivotIndex];
-  digits[pivotIndex] = digits[swapIndex];
-  digits[swapIndex] = tempDigit;
-
-  const rightPart = digits.splice(pivotIndex + 1);
-  rightPart.sort((a, b) => a - b);
-  const result = parseInt(digits.concat(rightPart).join(''), 10);
+  const tempDigitSwap = digits[i];
+  digits[i] = digits[j];
+  digits[j] = tempDigitSwap;
+  let left = i + 1;
+  let right = digits.length - 1;
+  while (left < right) {
+    const tempDigitReverse = digits[left];
+    digits[left] = digits[right];
+    digits[right] = tempDigitReverse;
+    left += 1;
+    right -= 1;
+  }
+  let result = 0;
+  for (let k = 0; k < digits.length; k += 1) {
+    result = result * 10 + digits[k];
+  }
   return result;
 }
-
 module.exports = {
   isPositive,
   getMaxNumber,
