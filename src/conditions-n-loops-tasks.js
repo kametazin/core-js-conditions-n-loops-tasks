@@ -224,18 +224,91 @@ function convertNumberToString(numberStr) {
  *  'qweqwe'    => false
  */
 function isPalindrome(str) {
-  function areEqual(char1, char2) {
-    return char1.toLowerCase() === char2.toLowerCase();
+  function getCharCode(char) {
+    const charMap = {
+      A: 65,
+      B: 66,
+      C: 67,
+      D: 68,
+      E: 69,
+      F: 70,
+      G: 71,
+      H: 72,
+      I: 73,
+      J: 74,
+      K: 75,
+      L: 76,
+      M: 77,
+      N: 78,
+      O: 79,
+      P: 80,
+      Q: 81,
+      R: 82,
+      S: 83,
+      T: 84,
+      U: 85,
+      V: 86,
+      W: 87,
+      X: 88,
+      Y: 89,
+      Z: 90,
+      a: 97,
+      b: 98,
+      c: 99,
+      d: 100,
+      e: 101,
+      f: 102,
+      g: 103,
+      h: 104,
+      i: 105,
+      j: 106,
+      k: 107,
+      l: 108,
+      m: 109,
+      n: 110,
+      o: 111,
+      p: 112,
+      q: 113,
+      r: 114,
+      s: 115,
+      t: 116,
+      u: 117,
+      v: 118,
+      w: 119,
+      x: 120,
+      y: 121,
+      z: 122,
+      ' ': 32,
+    };
+    return charMap[char];
   }
-
+  function areEqual(char1, char2) {
+    const charCode1 = getCharCode(char1);
+    const charCode2 = getCharCode(char2);
+    return charCode1 === charCode2;
+  }
   let i = 0;
   let j = str.length - 1;
   while (i < j) {
-    if (!/[a-zA-Z]/.test(str[i])) {
+    const char1 = str[i];
+    const char2 = str[j];
+    if (
+      !(
+        (char1 >= 'a' && char1 <= 'z') ||
+        (char1 >= 'A' && char1 <= 'Z') ||
+        char1 === ' '
+      )
+    ) {
       i += 1;
-    } else if (!/[a-zA-Z]/.test(str[j])) {
+    } else if (
+      !(
+        (char2 >= 'a' && char2 <= 'z') ||
+        (char2 >= 'A' && char2 <= 'Z') ||
+        char2 === ' '
+      )
+    ) {
       j -= 1;
-    } else if (!areEqual(str[i], str[j])) {
+    } else if (!areEqual(char1, char2)) {
       return false;
     } else {
       i += 1;
