@@ -174,23 +174,30 @@ function convertNumberToString(numberStr) {
   const strLength = numberStr.length;
   for (let i = 0; i < strLength; i += 1) {
     const char = numberStr[i];
-    if (char === '-') {
-      isNegative = true;
-    } else if (char === '.' || char === ',') {
-      hasDecimal = true;
-    } else if (!Number.isNaN(parseInt(char, 10))) {
-      if (!hasDecimal) {
-        const digitWord = digitWords[parseInt(char, 10)];
-        tempResult +=
-          (tempResult && tempResult[tempResult.length - 1] !== ' ' ? ' ' : '') +
-          digitWord;
-      } else {
-        const digitWord = digitWords[parseInt(char, 10)];
-        tempDecimal +=
-          (tempDecimal && tempDecimal[tempDecimal.length - 1] !== ' '
-            ? ' '
-            : '') + digitWord;
-      }
+    switch (char) {
+      case '-':
+        isNegative = true;
+        break;
+      case '.':
+      case ',':
+        hasDecimal = true;
+        break;
+      default:
+        if (!Number.isNaN(parseInt(char, 10))) {
+          const digitWord = digitWords[parseInt(char, 10)];
+          if (!hasDecimal) {
+            tempResult +=
+              (tempResult && tempResult[tempResult.length - 1] !== ' '
+                ? ' '
+                : '') + digitWord;
+          } else {
+            tempDecimal +=
+              (tempDecimal && tempDecimal[tempDecimal.length - 1] !== ' '
+                ? ' '
+                : '') + digitWord;
+          }
+        }
+        break;
     }
   }
   result = `${tempResult}${hasDecimal ? ` ${pointWord} ${tempDecimal}` : ''}`;
