@@ -473,25 +473,29 @@ function getSpiralMatrix(size) {
  *  ]                 ]
  */
 function rotateMatrix(matrix) {
-  const size = matrix.length;
-  const rotatedMatrix = [];
+  const originalMatrix = matrix;
+  const size = originalMatrix.length;
+  const result = [];
   for (let i = 0; i < size; i += 1) {
-    rotatedMatrix.push([...matrix[i]]);
-  }
-  for (let i = 0; i < size / 2; i += 1) {
-    for (let j = i; j < size - i - 1; j += 1) {
-      const temp = rotatedMatrix[i][j];
-      rotatedMatrix[i][j] = rotatedMatrix[size - 1 - j][i];
-      rotatedMatrix[size - 1 - j][i] =
-        rotatedMatrix[size - 1 - i][size - 1 - j];
-      rotatedMatrix[size - 1 - i][size - 1 - j] =
-        rotatedMatrix[j][size - 1 - i];
-      rotatedMatrix[j][size - 1 - i] = temp;
+    result[i] = [];
+    for (let j = 0; j < size; j += 1) {
+      result[i][j] = originalMatrix[j][i];
     }
   }
-  return rotatedMatrix;
+  for (let i = 0; i < size; i += 1) {
+    for (let j = 0; j < size / 2; j += 1) {
+      const temp = result[i][j];
+      result[i][j] = result[i][size - 1 - j];
+      result[i][size - 1 - j] = temp;
+    }
+  }
+  for (let i = 0; i < size; i += 1) {
+    for (let j = 0; j < size; j += 1) {
+      originalMatrix[i][j] = result[i][j];
+    }
+  }
+  return matrix;
 }
-
 /**
  * Sorts an array of numbers in ascending order in place.
  * Employ any sorting algorithm of your choice.
